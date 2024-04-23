@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Todo List</title>
+</head>
+
+<body>
+    <center>
+    <h2>To do List Task</h2>
+    <hr>
+    <input type="text" id="todoValue" placeholder="Task Name">
+    <input type="date" id="todoDate"><br>
+    <button data-action="add" id="addBtn" onclick="addToDo(this)">Add Todo</button>
+<hr>
+    <table border="2">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ToDo List</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="todoList"></tbody>
+    </table>
+</center>
+</body>
+<script src="TodoTask.js">
+//   let x = {
+//     m:42,
+//     f:function (){
+//         let a = [1,2,3];
+//         let str = "";
+//         a.forEach(function(){
+//             str += this.m;
+//         });
+//         return str;
+//     },
+//   };
+//   console.log(x.f());
+
+// function promised_function(msg){
+//     return new Promise(resolve =>{
+//         setTimeout(function(){
+//             resolve(msg);
+//         },3000);
+//     });
+// }
+// var async_f = async function(){
+//     var p1 = await promised_function('first');
+//     console.log(p1);
+//     var p2 = await promised_function('second');
+//     console.log(p2);
+//     console.log('done');
+// }
+// async_f();
+
+// var a = 10;
+// if(a < 20){
+//     let b = "yes";
+//     console.log(b);
+// }else{
+//     let b = "no";
+//     console.log(b);
+// }
+// console.log(b);
+
+// f1().then(r => f2((r))).then(r => f3((r))).then(r => f4((r))).catch(g); 
+// here f1,f2,f3,f4 are all functions return promise under what curmstan will g get called?
+
+// consider a JSON string that look like this:
+
+// [
+//     ["Swiggy",123],
+//     ["Swiggy",227],
+//     ["Zomato",103],
+//     ["Zomato",171],
+//     ["Dunzo",131],
+//     ["Zomato",122],
+//     ["Swiggy",181]
+// ]
+
+// this string encodes a list of payments made by a person for various delivery services.each element of the list is a list of two elements the first 
+// is the name of the service,and the second is the amount.
+// write a function/method in javascript to take such a string and return the number of service for which this person has never paid an amount of 200 r more.
+
+// for example if the above string is passed to your code, it should return 2)since this person has never paid 200 or more for zomato and danzo)
+// remember, the input will passed to you as a string.
+
+// JSON string
+// const jsonString = '[["Swiggy",123],["Swiggy",227],["Zomato",103],["Zomato",171],["Dunzo",131],["Zomato",122],["Swiggy",181]]';
+
+// function countServicesWithNoLargePayments(jsonString) {
+//     const transactions = JSON.parse(jsonString);
+//     const maxPayments = {};
+
+//     transactions.forEach(transaction => {
+//         const [service, amount] = transaction;
+
+//         if (!maxPayments[service] || maxPayments[service] < amount) {
+//             maxPayments[service] = amount;
+//         }
+//     });
+
+//     // Count the number of services with a maximum payment less than 200
+//     let countMaxService = 0;
+//     for (let service in maxPayments) {
+//         if (maxPayments[service] < 200) {
+//             countMaxService++;
+//         }
+//     }
+//     return countMaxService;
+// }
+// console.log(countServicesWithNoLargePayments(jsonString));  // Expected output: 2
+</script>
+
+</html>

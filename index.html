@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile App</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+    <!-- product details show on click -->
+    <div class="ProductDetailsPageHandler" id="ProductDetailsPage">
+        
+    </div>
+    <!-- navbar menu -->
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <!-- search product by name -->
+        <div class="search">
+            <input id="searchVal" type="search" />
+            <button onclick="SearchHandler()">Search</button>
+          </div>
+
+        <!-- wishlist page -->
+        <div class="cart_wishlist">
+            <div class="wishlist" onclick="wishlistToggle()">
+                <i class="fa fa-heart"></i>
+            </div>
+            <!-- add to cart page -->
+            <div class="cart" onclick="cartToggle()">
+                <span id="cartCount">0</span>
+                <i class="fa-solid fa-shopping-bag"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- add to wishlist page -->
+    <div class="wishListElem" id="wishListElem"></div>
+    <!-- add to cart page -->
+    <div class="cartElem" id="cartElem"></div>
+    <!-- display list of products -->
+    <div class="card-list" id="card_product"></div>
+
+    <!-- external objects file added -->
+    <script src="./products.js"></script>
+    <script>
+        // display product list
+        function renderProducts() {
+            card_product.innerHTML = multiProducts.map((multiProd) => {
+                return `<a class="card-item">
+            <div onclick='ProductDetailsPageHandler(${multiProd.id})'>        
+            <img src="${multiProd.img}" alt="Card Image">
+            <h3>${multiProd.title}</h3>
+            <span class="discount">${multiProd.discount} &nbsp;%</span>
+            <span class="price">&#8377; <del> ${multiProd.price}</del>&nbsp;&nbsp;&#8377; ${Math.round((multiProd.price / 100) * (100 - multiProd.discount))}</span>
+            </div>
+            <div class="cart-wishlisht">
+            <div class="arrow" onclick="AddToCart(${multiProd.id})">
+                <i class="fa-solid fa-cart-plus card-icon"></i>
+            </div>
+            <div class="heart" onclick="AddToWishlist(${multiProd.id})">
+                <i class="fa fa-heart heart-icon"></i>
+            </div>
+            </div>
+        </a>`
+            }).join('')
+        }
+        renderProducts();
+
+        // toggle page display  for addtocart
+        const cartToggle = () => {
+            cartElem.classList.toggle('active');
+            wishListElem.classList.remove('active');
+        }
+        // display add to cart product in array
+        let cartArr = [];
+
+        // prevent product remove while refreshing to save in local storage
+        let getLocalStorage = () =>{
+            let arr = JSON.parse(localStorage.getItem('cart'));
+            if(arr){
+                cartArr = arr
+            }
+        };
+        getLocalStorage();
+        cartCount.innerHTML = cartArr.length;
+
+        // global funcnality to use multiple places
+        const renderCart = () => {
+            cartElem.innerHTML = cartArr.map((multiProd) => {
+                return `<a class="card-item">
+            <img src="${multiProd.img}" alt="Card Image">
+            <div class="cart-wishlisht">
+                <span class="price">&#8377; <del> ${multiProd.price}</del>&nbsp;&nbsp;&#8377; ${Math.round((multiProd.price / 100) * (100 - multiProd.discount))}</span>
+            <div class="arrow" onclick="AddToCart(${multiProd.id})">
+                <i class="fa-solid fa-cart-plus card-icon"></i>
+            </div>
+
+            <div class="qty">
+  <button onclick='IncreaseQty(${multiProd.id})'>+</button>
+  <span>${multiProd.qty}</span>
+  <button onclick='DecreaseQty(${multiProd.id})'>-</button>
+</div>
+            </div>
+
+            <div class="remove" onclick="removeCart(${multiProd.id})">
+                <i class="fa fa-close remove-icon"></i>
+            </div>
+            </div>
+        </a><hr>`
+            }).join('')
+        }
+        renderCart();
+        // get product id when clicking on addtocart button
+        const AddToCart = (id) => { 
+            const getProductId = multiProducts.find((getId) => getId.id == id);
+            const getExistingProductId = cartArr.find((getId) => getId.id == id);
+            if (getExistingProductId) {
+                alert('Product is Alredy Exist in Cart');
+            }
+            else {
+                cartArr.push(getProductId);
+                localStorage.setItem('cart',JSON.stringify(cartArr));
+                getLocalStorage();
+            }
+            renderCart();
+
+            cartCount.innerHTML = cartArr.length;
+        }
+        // display wishlist  page onclick toggle
+        const wishlistToggle = () => {
+            wishListElem.classList.toggle('active');
+            cartElem.classList.remove('active');
+        }
+
+        // temporarty wishlist Array storage variable
+        const wishListArr = [];
+
+        // show wishlist products on wishlist page
+        const AddToWishlist = ((id) => {
+            const getWishlistId = multiProducts.find((wishListGetId) => wishListGetId.id == id)
+            wishListArr.push(getWishlistId);
+            wishListElem.innerHTML = wishListArr.map((multiProd) => {
+                return `<a class="card-item">
+            <img src="${multiProd.img}" alt="Card Image">
+            <h3>${multiProd.title}</h3>
+            <span class="discount">${multiProd.discount} &nbsp;%</span>
+            <span class="price">&#8377; <del> ${multiProd.price}</del>&nbsp;&nbsp;&#8377; ${Math.round((multiProd.price / 100) * (100 - multiProd.discount))}</span>
+            <div class="cart-wishlisht">
+            <div class="arrow" onclick="AddToCart(${multiProd.id})">
+                <i class="fa-solid fa-cart-plus card-icon"></i>
+            </div>
+            <div class="heart" onclick="AddToWishlist(${multiProd.id})">
+                <i class="fa fa-heart heart-icon"></i>
+            </div>
+            </div>
+        </a>`
+            }).join('')
+        })
+
+        // temporary value store in remove cart array
+        const removeCartArr = [];
+
+        // remove product from cart
+        const removeCart = (id) => {
+            let removeProduct = cartArr.filter((removeId) => removeId.id != id);
+            cartArr = removeProduct;
+            localStorage.setItem('cart',JSON.stringify(cartArr));
+                getLocalStorage();
+                
+            renderCart();
+            cartCount.innerHTML = cartArr.length;
+        };
+
+        // cart quantity increment and decrement
+        const IncreaseQty = (id) => {
+            let multiProducts = cartArr.find((multiProd) => multiProd.id == id);
+            multiProducts.qty++;
+            localStorage.setItem('cart',JSON.stringify(cartArr));
+                getLocalStorage();
+
+            renderCart();
+        };
+        const DecreaseQty = (id) => {
+            let multiProducts = cartArr.find((multiProd) => multiProd.id == id);
+
+            if (multiProducts.qty <= 1) {
+                alert('Minimum 1 qty is required');
+                return;
+            }l
+            multiProducts.qty--;
+            localStorage.setItem('cart',JSON.stringify(cartArr));
+                getLocalStorage();
+            renderCart();
+        };
+
+        // onclick of any products show product details on popup windows page
+        const ProductDetailsPageHandler = (id) => {
+            let GetProductDetailsHandler = multiProducts.find((multiProd) => multiProd.id == id);
+
+            ProductDetailsPage.style.display = 'block';
+
+            ProductDetailsPage.innerHTML = `<div class="content">
+                <button class="cross" onclick="closeSinglePRoductPage()">close</button>
+            <div class="col1">
+                <div class="img">
+                    <img src="${GetProductDetailsHandler.img}" alt="">
+                </div>
+                <div class="images">
+                    <div><img src="${GetProductDetailsHandler.img2}" alt=""></div>
+                    <div><img src="${GetProductDetailsHandler.img3}" alt=""></div>
+                    <div><img src="${GetProductDetailsHandler.img4}" alt=""></div>
+                    <div><img src="${GetProductDetailsHandler.img5}" alt=""></div>
+                </div>
+            </div>
+            <div class="col2">
+                <h1 class="title">${GetProductDetailsHandler.title}</h1>
+            </div>
+        </div>`;
+        };
+
+        // close the popup module
+        const closeSinglePRoductPage = () => {
+            ProductDetailsPage.style.display = "none";
+      };
+
+      // search product using product name
+      const SearchHandler = () => {
+        let val = searchVal.value;
+        let searched = multiProducts.filter((multiProd) =>
+          multiProd.title.toLowerCase().includes(val.toLowerCase())
+        );
+        if (searched.length === 0) {
+          card_product.innerHTML = `no search result found for "${val}"`;
+        } else {
+            card_product.innerHTML = searched
+            .map((multiProd) => {
+              return `<a onclick='SingleProductPageHandler(${
+                multiProd.id
+              })' class="card-item">
+            <img src="${multiProd.img}" alt="Card Image">
+            <span class="discount">${multiProd.discount} &nbsp;%</span>
+            <span class="price">&#8377;&nbsp;${Math.round(
+              (multiProd.price / 100) * (100 - multiProd.discount)
+            )}</span>
+            <h3 class='title'>${multiProd.title}</h3>
+            <div class="cart-wishlisht">
+            <div class="arrow" onclick='AddToCart(${multiProd.id})'>
+                <i class="fa-solid fa-cart-plus card-icon"></i>
+            </div>
+            <div class="heart">
+                <i class="fa fa-heart heart-icon"></i>
+            </div>
+            </div>
+        </a>`;
+            })
+            .join("");
+        }
+      };
+      searchVal.value = ''
+    </script>
+</body>
+</html>

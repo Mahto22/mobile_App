@@ -1,0 +1,247 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+nav {
+  background-color: plum;
+  padding: 1rem;
+  position: sticky;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  top: 0;
+}
+nav .cart_wishlist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+nav .wishlist i {
+  font-size: 25px;
+}
+nav .cart {
+  position: relative;
+}
+nav .cart i {
+  font-size: 35px;
+}
+nav .cart span {
+  position: absolute;
+  padding: 3px 8px;
+  top: -10px;
+  right: -10px;
+  border-radius: 50%;
+  background-color: plum;
+  border: 1px solid black;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: end;
+  gap: 20px;
+}
+nav a {
+  color: black;
+  text-decoration: none;
+  font-size: 1rem;
+}
+nav a:hover {
+  color: #ddd;
+}
+nav a:active {
+  color: #aaa;
+}
+nav a {
+  transition: color 0.3s ease;
+}
+.wishListElem {
+  background-color: rgb(179, 66, 189);
+  width: 25%;
+  position: fixed;
+  right: -1000px;
+  top: 55px;
+  height: 100vh;
+  z-index: 200;
+  overflow: auto;
+}
+.wishListElem.active {
+  right: 0 !important;
+}
+.wishListElem img {
+  width: 50%;
+  height: 100px;
+}
+.wishListElem .card-item {
+  display: grid;
+  grid-template-columns: 150px auto auto auto;
+}
+.cartElem {
+  background-color: rgb(230, 26, 189);
+  width: 40%;
+  position: fixed;
+  right: -1000px;
+  overflow: auto;
+  top: 60px;
+  height: 100vh;
+  z-index: 200;
+}
+.cartElem.active {
+  right: 0 !important;
+}
+.cartElem img {
+  width: 50%;
+  height: 100px;
+}
+.cartElem .card-item {
+  display: grid;
+  grid-template-columns: 150px auto auto auto;
+}
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  max-width: 100%;
+  padding: 10px;
+  gap: 10px;
+  background-color: rgb(241, 236, 240);
+}
+.card-list .card-item {
+  background: #fff;
+  padding: 26px;
+  border-radius: 20px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.04);
+  list-style: none;
+  cursor: pointer;
+  text-decoration: none;
+  border: 2px solid transparent;
+  transition: border 0.5s ease;
+}
+.card-list .card-item:hover {
+  border: 2px solid plum;
+}
+.card-list .card-item img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.card-list span {
+  display: inline-block;
+  background: #f7dff5;
+  margin-top: 32px;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-indent: 5px;
+  text-align: center;
+}
+.card-list .discount {
+  background-color: #27f56c;
+  color: black;
+  animation: discount 1s linear infinite;
+}
+@keyframes discount {
+  50% {
+    opacity: 0;
+  }
+}
+.card-list .price {
+  background-color: #f7dff5;
+  color: #b22485;
+  float: right;
+}
+.card-item h3 {
+  color: #000;
+  margin-top: 28px;
+  font-weight: lighter;
+  font-family: monospace;
+}
+.cart-wishlisht {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+.card-item .arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* transform: rotate(-35deg); */
+  height: 40px;
+  width: 40px;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 50%;
+  /* margin-top: 30px; */
+  transition: 0.2s ease;
+}
+.card-list .card-item:hover .arrow {
+  background: plum;
+  color: black;
+  border: none;
+}
+.heart {
+  float: right;
+}
+.heart-icon {
+  font-size: 30px;
+  color: plum;
+}
+.heart-icon:hover {
+  font-size: 30px;
+  color: red;
+}
+.ProductDetailsPageHandler{
+    height: 90vh;
+    width: 70%;
+    background-color: grey;
+    position: fixed;
+    top: 5vh;
+    overflow: auto;
+    display: none;
+    left: 15%;
+    z-index: 1000;
+}
+.ProductDetailsPageHandler .content {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    position: relative;
+    padding: 30px 20px;
+    width: 100%;
+    background-color: gray;
+    margin: 50px auto;
+    height: 100%;
+  }
+  .cross {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
+  .ProductDetailsPageHandler .col1 img {
+    width: 100%;
+  }
+  .ProductDetailsPageHandler .col1 .img {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .ProductDetailsPageHandler .col1 .images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    width: 80%;
+    margin: 20px auto;
+  }
+@media (max-width: 1200px) {
+  .card-list .card-item {
+    padding: 15px;
+  }
+}
+@media screen and (max-width: 980px) {
+  .card-list {
+    margin: 0 auto;
+  }
+}
